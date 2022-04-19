@@ -5,6 +5,7 @@
 import config
 import parse
 import tools
+import matching
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
@@ -14,8 +15,11 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     tools.mk_dir()
-    parse.get_odds(config.LIST_BETTING_SITE)
+    df = parse.get_odds(config.LIST_BETTING_SITE)
 
+    df = matching.match_team_names(df)
+
+    df.to_csv('OUT/odds.csv')
 
     print_hi('PyCharm')
 

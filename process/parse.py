@@ -10,7 +10,7 @@ def get_odds(list):
     for site in list:
         df = parse(site, config.URL_ODDS[site])
         df_odds = pd.concat([df_odds, df])
-    df_odds.to_csv('OUT/odds.csv')
+    return df_odds
 """
     if site == 'UNIBET':
         unibet_dict = unibet.parse(config.URL_ODDS[site])
