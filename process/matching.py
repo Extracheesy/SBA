@@ -28,13 +28,12 @@ def match_team_names(df):
 
 def match_bookmakers_team_names(df):
     df_teams = pd.read_csv(config.MATCH_BOOKMAKERS_NAMES)
-
     lst_bookmakers = df_teams.columns.tolist()
     lst_bookmakers.remove('sub')
 
     for bookmaker in lst_bookmakers:
         df_teams.index = df_teams[bookmaker]
-
         for replaced in df_teams.index.tolist():
             df.replace(replaced, df_teams['sub'][replaced], inplace=True, regex=True)
+
     return df
