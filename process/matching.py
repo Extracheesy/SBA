@@ -1,4 +1,5 @@
 import pandas as pd
+import config
 
 def match_team_names(df):
     df_temp = df.copy()
@@ -11,14 +12,29 @@ def match_team_names(df):
     df['team_2'] = df['games'].str.split(' - ').str[1]
     df['team_2'] = df['team_2'].str.upper()
 
+    df = match_bookmakers_team_names(df)
+    df.set_index('games', inplace=True, drop=False)
+
     df_result = pd.DataFrame(df.games.value_counts())
     df_result.rename(columns={'games': 'cpt_matching'}, inplace=True)
 
     df['cpt_bookmakers'] = df_result['cpt_matching']
 
-    # df.sort_values(by=['team_1'], inplace=True)
-    # df.sort_values(by=['team_2'], inplace=True)
     df.sort_values(by=['date'], inplace=True)
     df.drop(['games'], axis=1, inplace=True)
 
+    return df
+
+
+def match_bookmakers_team_names(df):
+    df_teams = pd.read_csv(config.MATCH_BOOKMAKERS_NAMES)
+
+    lst_bookmakers = df_teams.columns.tolist()
+    lst_bookmakers.remove('sub')
+
+    for bookmaker in lst_bookmakers:
+        df_teams.index = df_teams[bookmaker]
+
+        for replaced in df_teams.index.tolist():
+            df.replace(replaced, df_teams['sub'][replaced], inplace=True, regex=True)
     return df

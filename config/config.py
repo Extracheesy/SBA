@@ -8,3 +8,4 @@ URL_ODDS = {
 COLUMNS_ODDS_DF = ['date', 'site', 'odd_1', 'odd_n', 'odd_2', 'country', 'competition']
 
 PATH_OUT = './OUT'
+MATCH_BOOKMAKERS_NAMES = './DATA/matching bookmakers names.csv'
