@@ -6,6 +6,7 @@ import config
 import parse
 import tools
 import matching
+import fuzzy
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
@@ -20,6 +21,8 @@ if __name__ == '__main__':
     df = matching.match_team_names(df)
 
     df.to_csv('OUT/odds.csv')
+
+    fuzzy.get_match_ration(df.copy())
 
     print_hi('PyCharm')
 

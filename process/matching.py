@@ -12,6 +12,8 @@ def match_team_names(df):
     df['team_2'] = df['games'].str.split(' - ').str[1]
     df['team_2'] = df['team_2'].str.upper()
 
+    df.to_csv('OUT/odds_0.csv')
+
     df = match_bookmakers_team_names(df)
     df.set_index('games', inplace=True, drop=False)
 
@@ -28,11 +30,14 @@ def match_team_names(df):
 
 def match_bookmakers_team_names(df):
     df_teams = pd.read_csv(config.MATCH_BOOKMAKERS_NAMES)
+    df_teams = df_teams.drop_duplicates()
+    df_teams.to_csv(config.MATCH_BOOKMAKERS_NAMES_NO_DUPLICATES)
+
     lst_bookmakers = df_teams.columns.tolist()
     lst_bookmakers.remove('sub')
 
     for bookmaker in lst_bookmakers:
-        df_teams.index = df_teams[bookmaker]
+        df_teams.set_index(bookmaker, inplace=True, drop=False)
         for replaced in df_teams.index.tolist():
             df.replace(replaced, df_teams['sub'][replaced], inplace=True, regex=True)
 
