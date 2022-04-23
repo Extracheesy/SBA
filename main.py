@@ -7,6 +7,9 @@ import parse
 import tools
 import matching
 import fuzzy
+import pandas as pd
+
+import process_odd
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
@@ -16,13 +19,16 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     tools.mk_dir()
+
     df = parse.get_odds(config.LIST_BETTING_SITE)
 
     df = matching.match_team_names(df)
-
     df.to_csv('OUT/odds.csv')
 
     fuzzy.get_match_ration(df.copy())
+
+    df_odds = process_odd.get_optimized_odd(df)
+    df_odds.to_csv('OUT/computed_odds.csv')
 
     print_hi('PyCharm')
 
